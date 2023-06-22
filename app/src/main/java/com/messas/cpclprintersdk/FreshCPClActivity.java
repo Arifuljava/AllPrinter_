@@ -78,14 +78,7 @@ public class FreshCPClActivity extends AppCompatActivity {
         imageposit = findViewById(R.id.imageposit);
         printimageA = findViewById(R.id.printimageA);
         bitmapcalling=findViewById(R.id.bitmapcalling);
-        byte[] bitmapData = getIntent().getByteArrayExtra("bitmapData");
-        if (bitmapData != null) {
-            bitmapdataMe = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
-            // Use the bitmap as needed
-            imageposit.setImageBitmap(bitmapdataMe);
 
-            flag = 2;
-        }
 
 
 
@@ -263,8 +256,10 @@ public class FreshCPClActivity extends AppCompatActivity {
     int PICK=12;
     boolean request=false;
 
+
     private void printImage1() {
-        final Bitmap bitmap = bitmapdataMe;
+      //  final Bitmap bitmap = bitmapdataMe;
+        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.testing);
         float scax=384f /bitmap.getWidth();
         float scaly= 384f / bitmap.getHeight();
         Log.e("dolon",""+bitmap);
@@ -368,7 +363,7 @@ public class FreshCPClActivity extends AppCompatActivity {
                                             @Override
                                             public void onFinish() {
 
-                                                printimageA.setText("Print Image");
+                                                printimageA.setText("Print Out");
                                                 try {
                                                     os.flush();
                                                     os.flush();
@@ -466,7 +461,7 @@ public class FreshCPClActivity extends AppCompatActivity {
                                             @Override
                                             public void onFinish() {
 
-                                                printimageA.setText("Print Image");
+                                                printimageA.setText("Print Out");
                                                 try {
                                                     os.flush();
                                                     os.flush();
@@ -500,5 +495,45 @@ public class FreshCPClActivity extends AppCompatActivity {
         });
         thread.start();
     }
+    private void pddrintImage1() {
 
+        String BlueMac = "FB:7F:9B:F2:20:B7";
+        mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+        mBluetoothAdapter = mBluetoothManager.getAdapter();
+        final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(BlueMac);
+        ///
+
+        ////
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    /// Toast.makeText(AssenTaskDounwActivity.this, "Done", Toast.LENGTH_SHORT).show();
+                    if (ActivityCompat.checkSelfPermission(FreshCPClActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                        m5ocket = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                        m5ocket.connect();
+
+                        os = m5ocket.getOutputStream();
+
+
+
+
+
+
+                    }
+                    else {
+
+                    }
+
+
+
+
+                } catch (IOException e) {
+                    Log.e("Error", ""+e.getMessage());
+
+                }
+            }
+        });
+        thread.start();
+    }
 }
