@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +70,16 @@ TextView connectedornot;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_p_c_l_fresh);
+        ScrollView scrollView = findViewById(R.id.scrollView);
+
+// Perform smooth scrolling to a specific position within the ScrollView
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                // Replace the X and Y coordinates with the desired scroll position
+                scrollView.smoothScrollTo(0, 500);
+            }
+        });
         printtimer=findViewById(R.id.printtimer);
         quantityProductPage=findViewById(R.id.quantityProductPage);
         progressbarsechk=findViewById(R.id.progressbarsechk);
