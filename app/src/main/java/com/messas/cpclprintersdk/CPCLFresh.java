@@ -35,7 +35,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -65,6 +67,7 @@ TextView connectedornot;
     Button printimageA;
     Bitmap bitmapdataMe;
     TextView printtimer;
+    String printer_detector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +174,8 @@ TextView connectedornot;
             @Override
             public void onClick(View v) {
                 String BlueMac = "FB:7F:9B:F2:20:B7";
+
+                Toast.makeText(CPCLFresh.this, "gggg", Toast.LENGTH_SHORT).show();
                 mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
                 mBluetoothAdapter = mBluetoothManager.getAdapter();
                 final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(BlueMac);
@@ -207,8 +212,56 @@ TextView connectedornot;
 
             }
         });
-    }
 
+
+    }
+    private String findPrinterIP(String printerMACAddress) {
+        // Perform network discovery or use a network scanning library to find the printer IP address based on MAC address
+        // This is just a sample implementation, you may need to customize it based on your network scanning approach
+
+        // Assuming you have the printer IP address
+        return "192.168.1.100";
+    }
+    public String  PrinterModeDetector(String printerMACAddress)
+    {
+        String printerIP = findPrinterIP(printerMACAddress);
+        if (printerIP == null) {
+            // Printer not found
+            return "Printer not found";
+        }
+        // Establish a connection with the printer
+        try (Socket socket = new Socket(printerIP, 9100)) {
+            // Send CPCL command to check CPCL mode
+            String cpclCommand = "! U1 getvar \"allcv\"\r\n";
+            socket.getOutputStream().write(cpclCommand.getBytes());
+
+            // Read the response
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String response = reader.readLine();
+            if (response.contains("! U1 ")) {
+                // Printer is in CPCL mode
+                return "CPCL mode";
+            }
+
+            // Send ESC/POS command to check ESC mode
+            byte[] escCommand = {0x1B, 0x76};
+            socket.getOutputStream().write(escCommand);
+
+            // Read the response
+            response = reader.readLine();
+            if (response != null) {
+                // Printer is in ESC mode
+                return "ESC mode";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Unable to determine printer mode
+        return "Unknown";
+
+
+    }
     public void decrement(View view) {
         int value = Integer.parseInt(quantityProductPage.getText().toString());
         if (value==1) {
@@ -450,7 +503,7 @@ for (int i=1;i<=Integer.parseInt(quantityProductPage.getText().toString());i++){
         @Override
         public void run() {
             // write your code here
-            countDownTimer =new CountDownTimer(3000,1000) {
+            countDownTimer =new CountDownTimer(2000,1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
 

@@ -16,12 +16,15 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +32,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class TwoInchPrinterActivity extends AppCompatActivity {
-    EditText quantityProductPage;
+public class TwoInchPrinterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    EditText quantityProductPage,quantityProductPage_speed;
     SeekBar seekBar;
     TextView progressbarsechk;
     TextView connectedornot;
@@ -49,10 +52,22 @@ public class TwoInchPrinterActivity extends AppCompatActivity {
     Button printimageA;
     Bitmap bitmapdataMe;
     TextView printtimer;
+    Spinner papertype;
+    String valueSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two_inch_printer);
+        ///for the papertype
+        papertype=findViewById(R.id.papertype);
+        papertype.setOnItemSelectedListener(this);
+        quantityProductPage_speed=findViewById(R.id.quantityProductPage_speed);
+
+        String[] textSizes = getResources().getStringArray(R.array.papersize);
+        ArrayAdapter adapter = new ArrayAdapter(this,
+                R.layout.selectitem, textSizes);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        papertype.setAdapter(adapter);
 
         //
         ScrollView scrollView = findViewById(R.id.scrollView);
@@ -131,7 +146,8 @@ public class TwoInchPrinterActivity extends AppCompatActivity {
         relagoo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Findlocation.class));
+
+                //startActivity(new Intent(getApplicationContext(),Findlocation.class));
             }
         });
 
@@ -223,4 +239,35 @@ public class TwoInchPrinterActivity extends AppCompatActivity {
     boolean request=false;
     CountDownTimer countDownTimer,countDownTimer1;
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public void decrement_speed(View view) {
+        int value = Integer.parseInt(quantityProductPage_speed.getText().toString());
+        if (value==1) {
+            Toast.makeText(this, "It is the lowest value.Print speed value is not decrement now.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            value=value-1;
+            quantityProductPage_speed.setText(""+value);
+        }
+    }
+
+    public void increment_speed(View view) {
+        int value = Integer.parseInt(quantityProductPage_speed.getText().toString());
+        if (value==9) {
+            Toast.makeText(this, "It is the highest value. Print Speed value is not increment now.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            value=value+1;
+            quantityProductPage_speed.setText(""+value);
+        }
+    }
 }
