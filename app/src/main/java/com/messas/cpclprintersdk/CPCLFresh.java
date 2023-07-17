@@ -26,14 +26,19 @@ import android.provider.CalendarContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,8 +52,8 @@ import java.util.UUID;
 
 import es.dmoral.toasty.Toasty;
 
-public class CPCLFresh extends AppCompatActivity {
-    EditText quantityProductPage;
+public class CPCLFresh extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    EditText quantityProductPage,quantityProductPage_speed;
     SeekBar seekBar;
 TextView progressbarsechk;
 TextView connectedornot;
@@ -68,12 +73,23 @@ TextView connectedornot;
     Bitmap bitmapdataMe;
     TextView printtimer;
     String printer_detector;
-
+    Spinner papertype;
+    String valueSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_p_c_l_fresh);
         ScrollView scrollView = findViewById(R.id.scrollView);
+        quantityProductPage_speed=findViewById(R.id.quantityProductPage_speed);
+        papertype=findViewById(R.id.papertype);
+        papertype.setOnItemSelectedListener(this);
+        quantityProductPage_speed=findViewById(R.id.quantityProductPage_speed);
+
+        String[] textSizes = getResources().getStringArray(R.array.papersize);
+        ArrayAdapter adapter = new ArrayAdapter(this,
+                R.layout.selectitem, textSizes);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        papertype.setAdapter(adapter);
 
 // Perform smooth scrolling to a specific position within the ScrollView
         scrollView.post(new Runnable() {
@@ -157,10 +173,14 @@ TextView connectedornot;
            if (TextUtils.isEmpty(geeet)|| geeet.equals(null))
            {
                geeet="FB:7F:9B:F2:20:B7";
+               connectedornot.setText("Connected");
+               connectedornot.setTextColor(Color.GREEN);
            }
            else
            {
                geeet=geeet;
+               connectedornot.setText("Connected");
+               Toast.makeText(this, ""+geeet, Toast.LENGTH_SHORT).show();
            }
        }catch (Exception e){
            e.printStackTrace();
@@ -175,7 +195,7 @@ TextView connectedornot;
             public void onClick(View v) {
                 String BlueMac = "FB:7F:9B:F2:20:B7";
 
-                Toast.makeText(CPCLFresh.this, "gggg", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CPCLFresh.this, ""+geeet, Toast.LENGTH_SHORT).show();
                 mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
                 mBluetoothAdapter = mBluetoothManager.getAdapter();
                 final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(BlueMac);
@@ -465,7 +485,8 @@ TextView connectedornot;
 
         final byte[] bitmapGetByte = BitmapToRGBbyteA(resize);//convertBitmapToRGBBytes (resize);
         Log.e("Ariful4",""+bitmapGetByte);
-        String BlueMac = "FB:7F:9B:F2:20:B7";
+        String BlueMac = geeet;
+        Log.e("Ariful66",""+geeet);
         mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(BlueMac);
@@ -591,13 +612,46 @@ for (int i=1;i<=Integer.parseInt(quantityProductPage.getText().toString());i++){
 
 
                 } catch (IOException e) {
-                   // Toast.makeText(CPCLFresh.this, "Try Again. Bluetooth Connection Problem.", Toast.LENGTH_SHORT).show();
-                   // printtimer.setText("Try Again. Bluetooth Connection Problem.");
+                    // Toast.makeText(CPCLFresh.this, "Try Again. Bluetooth Connection Problem.", Toast.LENGTH_SHORT).show();
+                    // printtimer.setText("Try Again. Bluetooth Connection Problem.");
                     Log.e("Error : ",""+e.getMessage());
+                    View parentLayout = findViewById(android.R.id.content);
+                    Snackbar.make(parentLayout, e.getMessage(), Snackbar.LENGTH_SHORT).show();
 
                 }
             }
         });
         thread.start();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+    public void decrement_speed(View view) {
+        int value = Integer.parseInt(quantityProductPage_speed.getText().toString());
+        if (value==1) {
+            Toast.makeText(this, "It is the lowest value.Print speed value is not decrement now.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            value=value-1;
+            quantityProductPage_speed.setText(""+value);
+        }
+    }
+
+    public void increment_speed(View view) {
+        int value = Integer.parseInt(quantityProductPage_speed.getText().toString());
+        if (value==6) {
+            Toast.makeText(this, "It is the highest value. Print Speed value is not increment now.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            value=value+1;
+            quantityProductPage_speed.setText(""+value);
+        }
     }
 }

@@ -147,7 +147,7 @@ public class TwoInchPrinterActivity extends AppCompatActivity implements Adapter
             @Override
             public void onClick(View v) {
 
-                //startActivity(new Intent(getApplicationContext(),Findlocation.class));
+                startActivity(new Intent(getApplicationContext(),Findlocation.class));
             }
         });
 
@@ -262,7 +262,7 @@ public class TwoInchPrinterActivity extends AppCompatActivity implements Adapter
 
     public void increment_speed(View view) {
         int value = Integer.parseInt(quantityProductPage_speed.getText().toString());
-        if (value==9) {
+        if (value==6) {
             Toast.makeText(this, "It is the highest value. Print Speed value is not increment now.", Toast.LENGTH_SHORT).show();
         }
         else{

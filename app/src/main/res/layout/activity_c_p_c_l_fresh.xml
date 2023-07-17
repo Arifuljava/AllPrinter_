@@ -322,7 +322,7 @@
                                    android:id="@+id/seekBar"
                                    android:layout_width="100dp"
                                    android:layout_height="30dp"
-                                   android:max="3"
+                                   android:max="12"
                                    android:min="1"
                                    android:outlineSpotShadowColor="#004368"
                                    android:indeterminateTint="#004368"
@@ -354,7 +354,175 @@
                     </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
+                ///print type
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
 
+                    >
+                    <androidx.cardview.widget.CardView
+
+                        android:layout_width="0dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="#fff"
+                        app:cardUseCompatPadding="true"
+                        app:cardElevation="4dp"
+                        app:cardCornerRadius="4dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        >
+
+                        <RelativeLayout
+                            android:id="@+id/typepaper"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+                                android:text="Paper Type"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="30dp"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="false"
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif"
+
+                                android:textSize="15dp"
+                                ></TextView>
+                            <Spinner
+                                android:layout_width="140dp"
+
+                                android:layout_height="wrap_content"
+                                android:id="@+id/papertype"
+                                android:foregroundTint="@color/white"
+
+                                android:text="Connected"
+                                android:layout_marginLeft="20dp"
+                                android:drawableLeft="@drawable/ic_baseline_bluetooth_24"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="false"
+                                android:layout_centerInParent="false"
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif"
+
+                                android:textSize="15dp"
+                                ></Spinner>
+
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+                //speed
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+
+                    >
+                    <androidx.cardview.widget.CardView
+
+                        android:layout_width="0dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="#fff"
+                        app:cardUseCompatPadding="true"
+                        app:cardElevation="4dp"
+                        app:cardCornerRadius="4dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        >
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+                                android:text="Print Speed"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="30dp"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="false"
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif"
+
+                                android:textSize="15dp"
+                                ></TextView>
+                            <EditText
+                                android:layout_width="80dp"
+
+                                android:layout_height="40dp"
+
+
+                                android:layout_marginLeft="20dp"
+
+                                android:layout_marginRight="10dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="30dp"
+                                android:visibility="gone"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="false"
+                                android:textColor="@color/black"
+                                android:background="@drawable/dense"
+                                android:fontFamily="sans-serif"
+
+                                android:textSize="15dp"
+                                ></EditText>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:orientation="horizontal"
+                                >
+                                <Button
+                                    android:id="@+id/decrementQuantity_speed"
+                                    android:layout_width="48dp"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@android:color/black"
+                                    android:backgroundTint="#eeeeee"
+                                    android:text="-"
+                                    android:onClick="decrement_speed"/>
+                                <EditText
+                                    android:id="@+id/quantityProductPage_speed"
+                                    android:layout_width="40dp"
+                                    android:gravity="center"
+                                    android:maxLength="2"
+                                    android:maxLines="1"
+                                    android:text="1"
+                                    android:enabled="false"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginRight="8dp"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="16sp"
+                                    android:inputType="number"
+                                    tools:text="1"/>
+
+                                <Button
+                                    android:id="@+id/incrementQuantity_speed"
+                                    android:layout_width="48dp"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@android:color/black"
+                                    android:backgroundTint="#eeeeee"
+                                    android:text="+"
+                                    android:onClick="increment_speed"/>
+                            </LinearLayout>
+
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
                 //forprint
                 <LinearLayout
                     android:layout_width="match_parent"
